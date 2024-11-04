@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const port = 5000
 const { signup, signin } = require('./controllers/user')
-const jwt = require('jsonwebtoken')
+const { sign } = require('./controllers/jwt')
 
 const api = express()
 api.use(cors({origin: '*'}))
@@ -14,13 +14,13 @@ const toTS = value => {
 
 api.post('/signup', async (req, res, next) => {
   signup(req.body)
-  .then(user => res.json({result: jwt.sign(user, 'secret')}))
+  .then(user => res.json({result: sign(user, 'secret')}))
   .catch(error => next(error))
 })
 
 api.post('/signin', async (req, res, next) => {
   signin(req.body)
-  .then(user => res.json({result: jwt.sign(user, 'secret')}))
+  .then(user => res.json({result: sign(user, 'secret')}))
   .catch(error => next(error))
 })
 

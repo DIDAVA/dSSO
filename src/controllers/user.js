@@ -17,13 +17,19 @@ exports.signup = i => {
       if (!isStrongPassword(i.password, passOpts)) throw 'Please choose a strong password. (Minimum 6 characters including uppercase, lowercase, numbers and symbols)'
       if (!isAlphanumeric(i.nickname, 'en-US', {ignore: ' '})) throw 'Invalid characters in nickname. (Characters, numbers and spaces only)'
       if (!isDate(i.birthday)) throw 'Invalid birthday. (YYYY/MM/DD format only)'
-      const data = {
-        email: i.email,
-        password: createHash('sha256').update(i.password).digest('hex'),
-        name: escape(trim(i.nickname)),
-        birthday: new Date(i.birthday)
-      }
-      const user = await prisma.user.create({data, select})
+      const exists = await prisma.user.findUnique({
+        where: {email: i.email}
+      })
+      if (exists) throw 'Email is already registered'
+      const user = await prisma.user.create({
+        data: {
+          email: i.email,
+          password: createHash('sha256').update(i.password).digest('hex'),
+          name: escape(trim(i.nickname)),
+          birthday: new Date(i.birthday)
+        }, 
+        select
+      })
       resolve(user)
     }
     catch (error) {reject(error)}
