@@ -1,0 +1,26 @@
+{
+  "name": "dsso",
+  "version": "1.0.0",
+  "description": "Simple JWT based SSO",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon",
+    "serve": "node",
+    "studio": "npx prisma studio",
+    "migrate": "npx prisma migrate dev --name init"
+  },
+  "author": "DIDAVA",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.21.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.8.7",
+    "prisma": "^5.21.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
